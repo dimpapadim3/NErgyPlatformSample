@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.LibraryEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <toolkit:DataForm Name="DataForm" AutoGenerateFields="False" CurrentItem="{Binding}" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,0" AutoEdit="True"    >
+            <toolkit:DataForm.EditTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <toolkit:DataField Grid.Row="0" Grid.Column="0" Label="Ονομα Βιβλιοθήκης" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Name, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+                        <toolkit:DataField Grid.Row="1" Grid.Column="0" Label="Περιγραφή" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Description, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+
+                        <toolkit:DataField Grid.Row="2" Grid.Column="0" Label="Τύπος" LabelPosition="Auto">
+                            <ComboBox  
+                                              DisplayMemberPath="Name"
+                                        SelectedValuePath="LibraryTypeID"
+                                ItemsSource="{Binding Path=LibraryTypes,   Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"  SelectedItem="{Binding Path=SelectedLibraryType}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+                    </Grid>
+                </DataTemplate>
+            </toolkit:DataForm.EditTemplate>
+   
+        </toolkit:DataForm>
+
+    </Grid>
+</UserControl>

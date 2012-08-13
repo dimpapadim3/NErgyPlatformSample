@@ -1,0 +1,17 @@
+--- ProjectsPreviewViewSingleProject.xaml
++++ ProjectsPreviewViewSingleProject.xaml
+@@ -3,11 +3,11 @@
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" xmlns:Babylon="clr-namespace:NCad.Application.Views.Views3D.Babylon;assembly=NCad.Application" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:view3D="clr-namespace:NCad.Views.Views3D;assembly=NCad.Application" mc:Ignorable="d"
+-    d:DesignHeight="566" d:DesignWidth="600" SizeChanged="UserControl_SizeChanged">
++    SizeChanged="UserControl_SizeChanged">
+ 
+-    <Grid x:Name="LayoutRoot" Background="White" DataContext="{Binding}" >
++    <Grid x:Name="LayoutRoot" Background="White" DataContext="{Binding}" Height="400" Width="400" >
+        
+-       <view3D:BalderView x:Name="mainView3D" Height="600" Background="Black" Width="600"/>
++       <view3D:BalderView x:Name="mainView3D" Height="400" Width="400" Background="Black" />
+        <!--<Babylon:DrawingSurface3D Grid.Row="0" Background="Aqua" x:Name="mainView3D"  >
+          
+         </Babylon:DrawingSurface3D>-->

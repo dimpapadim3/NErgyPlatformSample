@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.ThermalSectionEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500" d:DesignWidth="748" xmlns:my="clr-namespace:NCad.Views.Views3D;assembly=NCad.Application" xmlns:my1="clr-namespace:NErgy.Silverlight.Views" xmlns:riaControls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.DomainServices" xmlns:my2="clr-namespace:NErgy.Silverlight.Web.Services" xmlns:my3="clr-namespace:NErgy.Silverlight.Web.Models" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:Views2D="clr-namespace:NCad.Application.Views.Views2D;assembly=NCad.Application" xmlns:LiveGeometry="clr-namespace:LiveGeometry;assembly=LiveGeometry">
+
+    <Grid x:Name="LayoutRoot" Background="White" Height="500" Width="733">
+
+        <!--<my:BalderView Name="balderView1" Margin="413,21,12,92" Height="300" Width="300">
+           
+        </my:BalderView>-->
+        <!--<Button Click="Button_Click" Margin="6,229,640,245"></Button>-->
+
+        <!--<LiveGeometry:Page Width="200" Height="200" Name="View2D" ShowToolbar="False"/>-->
+
+
+        <my1:ThermalSectionView x:Name="_ThermalSectionView" Section="{Binding SelectedItem, ElementName=LayersDataGrid,UpdateSourceTrigger=Explicit}" Margin="0,261,331,58" />
+        <sdk:DataGrid  Name="LayersDataGrid" AutoGenerateColumns="True" Height="245" Width="407" Margin="0,0,326,255" >
+            <!--<sdk:DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <StackPanel Background="LightBlue">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Material Details" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <my1:MaterialEditor MaterialsViewModel="{Binding MaterialsViewModel}">
+                            </my1:MaterialEditor>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </sdk:DataGrid.RowDetailsTemplate>-->
+        </sdk:DataGrid>
+        <Button Content="Edit Material" Height="23" HorizontalAlignment="Left" Margin="413,407,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+        <Button Content="Delete Layer" Height="23" HorizontalAlignment="Left" Margin="413,436,0,0" Name="button2" VerticalAlignment="Top" Width="75" Click="button2_Click" />
+        <Button Content="Add Layer" Height="23" HorizontalAlignment="Left" Margin="413,465,0,0" Name="button3" VerticalAlignment="Top" Width="75" Click="button3_Click" />
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,338 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using BuildingBasicDomain;
+using BuildingStructuralElements;
+using NCad.Application.Views.Controllers;
+using NCad.Models;
+using NCad.Views;
+using NErgy.Building;
+using NErgy.Silverlight.Views.ViewModels;
+using Page = LiveGeometry.Page;
+using Point = BuildingBasicDomain.Point;
+
+namespace NErgy.Silverlight.Views.Controllers
+{
+    public class Section3DViewControler : BalderViewController
+    {
+        public override void GenerateMenuItems(Action<string, RoutedEventHandler> itemAdd)
+        {
+            if (Model.CurrentSelectedItem is Slab)
+            {
+                itemAdd("Delete Material Layer", (e, s) => { Model.RemoveModelElement(Model.CurrentSelectedItem); });
+            }
+        }
+    }
+
+    public class SectionEditorController
+    {
+        private readonly Dictionary<object, object> RegisteredGeoemetries = new Dictionary<object, object>();
+        public double SectionsDistane = 0.5;
+        private BalderViewController _BalderViewController;
+        private IThermalElement _SelectedElement;
+        private ThermalSectionEditor _ThermalSectionEditor;
+
+        public SectionEditorController()
+        {
+            SectionModel = new BuildingModel();
+            SectionModel.SelectedItem += SectionModel_SelectedItem;
+
+            //SectionModel.RemovedItem += new EventHandler(SectionModel_RemovedItem);
+        }
+
+
+        private BuildingModel SectionModel { get; set; }
+
+
+        public BalderViewController BalderViewController
+        {
+            get { return _BalderViewController; }
+            set
+            {
+                _BalderViewController = value;
+                _BalderViewController.Model = SectionModel;
+            }
+        }
+
+        private IThermalSection _SelectedSection;
+        public IThermalSection SelectedSection
+        {
+            get
+            {
+                return _SelectedSection;
+            }
+            set
+            {
+                _SelectedSection = value;
+                SectionModel.ModelElements.Clear();
+                Model2D.ModelElements.Clear();
+                CreateModel3DElements(value);
+                //CreateModel2DElements(value);
+                FillDataGrid(value);
+                //_ThermalSectionEditor.LayersDataGridView.SelectionChanged += new SelectionChangedEventHandler(LayersDataGridView_SelectionChanged);
+            }
+        }
+  
+        public ThermalSectionEditor ThermalSectionEditor
+        {
+            get { return _ThermalSectionEditor; }
+            set
+            {
+                _ThermalSectionEditor = value;
+                _ThermalSectionEditor.EditMaterial += _ThermalSectionEditor_EditMaterial;
+                _ThermalSectionEditor.LayersDataGridView.SelectionChanged += LayersDataGridView_SelectionChanged;
+                _ThermalSectionEditor.SectionEditorController = this;
+            }
+        }
+
+        public ActionManager ActionManager { get; set; }
+
+        private void LayersDataGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null)
+            {
+                var selectedSection = e.AddedItems[0] as ThermalSection;
+                DisplaySelectedSectionLayer(selectedSection);
+                SelectedSection = selectedSection;
+            }
+        }
+
+        private void SectionModel_SelectedItem(object sender, EventArgs e)
+        {
+            KeyValuePair<object, object> section = RegisteredGeoemetries.FirstOrDefault(c => c.Key.Equals(sender));
+            if (section.Value != null)
+                DisplaySelectedSectionLayer(((ThermalSection) section.Value));
+        }
+
+
+        private void CreateModel2DElements(CompositeThermalSection compositeThermalSection)
+        {
+            StructuralArea baseLayer = GetBaseLayer();
+
+            StructuralArea templayer = baseLayer;
+            if (compositeThermalSection is CompositeThermalSection)
+            {
+                foreach (ThermalSection section in (compositeThermalSection).Sections)
+                {
+                    StructuralArea area = CreateAreaOnSideOf(templayer, section.D);
+                    templayer = area;
+
+                    BuildingStructuralElements.Slab slab = new BuildingBuilder().CreateSlab(area.Area);
+                    slab.T = section.D;
+                    AddSectionTo2DModel(slab, section);
+                }
+            }
+        }
+
+        private void AddSectionTo2DModel(BuildingStructuralElements.Slab slab, ThermalSection section)
+        {
+            Model2D.AddModelElement(slab);
+        }
+
+        private StructuralArea CreateAreaOnSideOf(StructuralArea layer, double D)
+        {
+            var parallel_area = new StructuralArea {T = D};
+
+            layer.Polygon
+                .ForEach(p =>
+                             {
+                                 var parallel_node = new Node(p.X, p.Y, p.Z);
+                                 parallel_area.Add(parallel_node);
+                             }
+                );
+
+            double dist = layer.T/2; // +SectionsDistane;
+
+            parallel_area
+                .Move(
+                    0,
+                    0,
+                    layer.GetMiddle().Z + dist
+                );
+
+            return parallel_area;
+        }
+
+        private void FillDataGrid(IThermalSection value)
+        {
+            if (value is CompositeThermalSection) {
+                _ThermalSectionEditor.LayersDataGridView.ItemsSource = (value as CompositeThermalSection).Sections;
+                 _ThermalSectionEditor.LayersDataGridView.UpdateLayout();
+            }
+        }
+
+        private void RegisterGeometry(object element, object geometryObject)
+        {
+            if (RegisteredGeoemetries.Keys.Contains(element)) throw new Exception("Element Already Registered");
+            RegisteredGeoemetries.Add(element, geometryObject);
+        }
+
+        private void UnRegisterGeometry(object element, object geometryObject)
+        {
+            if (!RegisteredGeoemetries.Keys.Contains(element)) throw new Exception("Element Is Not Registered");
+            RegisteredGeoemetries.Remove(element);
+        }
+
+        private void _ThermalSectionEditor_EditMaterial(object sender, EventArgs e)
+        {
+            if (SelectedSection == null) return;
+            Mediator.OpenWindow(new MaterialEditor
+                                    {
+                                        Material =SelectedSection. Material
+                                    });
+        }
+
+        public static CompositeThermalSection TestCompositeThermalSection()
+        {
+            return new CompositeThermalSection
+                       {
+                           Sections = new List<ThermalSection>
+                                          {
+                                              new ThermalSection {D = 0.2},
+                                              new ThermalSection {D = 0.2},
+                                              new ThermalSection {D = 0.3},
+                                          }
+                       };
+        }
+
+        private void CreateModel3DElements(object compositeThermalSection)
+        {
+            CreateModel3DElementsFromArea(compositeThermalSection, GetBaseLayer());
+        }
+
+        private void CreateModel3DElementsFromArea(object compositeThermalSection, StructuralArea structuralArea)
+        {
+            StructuralArea baseLayer = structuralArea;
+            baseLayer = ReduceSize(baseLayer, 3);
+            StructuralArea templayer = baseLayer;
+            if (compositeThermalSection is CompositeThermalSection)
+            {
+                foreach (ThermalSection section in ((CompositeThermalSection) compositeThermalSection).Sections)
+                {
+                    StructuralArea area = CreateAreaOnTopOf(templayer, section.D);
+                    templayer = area;
+
+                    BuildingStructuralElements.Slab slab = new BuildingBuilder().CreateSlab(area.Area);
+                    slab.T = section.D;
+                    AddSectionToModel(slab, section);
+                }
+            }
+        }
+
+        private StructuralArea ReduceSize(StructuralArea baseLayer, double rate)
+        {
+            var reduced = new StructuralArea();
+            baseLayer.Polygon
+                .ForEach(p =>
+                             {
+                                 var parallel_node = new Node(p.X/rate, p.Y/rate, p.Z/rate);
+                                 reduced.Add(parallel_node);
+                             }
+                );
+            return reduced;
+        }
+
+        private void AddSectionToModel(BuildingStructuralElements.Slab slab, ThermalSection section)
+        {
+            SectionModel.AddModelElement(slab);
+            RegisteredGeoemetries.Add(slab, section);
+            
+            
+        }
+
+        private StructuralArea GetBaseLayer()
+        {
+            return new BuildingBuilder().CreateSlab(
+                new Line(
+                    new Point(0, 0, 0),
+                    new Point(0, 0, 10)),
+                10, BuildingBuilder.xDirection);
+        }
+
+        private StructuralArea CreateAreaOnTopOf(StructuralArea layer, double D)
+        {
+            var parallel_area = new StructuralArea {T = D};
+
+            layer.Polygon
+                .ForEach(p =>
+                             {
+                                 var parallel_node = new Node(p.X, p.Y, p.Z);
+                                 parallel_area.Add(parallel_node);
+                             }
+                );
+
+            double dist = layer.T + SectionsDistane;
+
+            parallel_area
+                .Move(
+                    -layer.normal.X*dist,
+                    -layer.normal.Y*dist,
+                    -layer.normal.Z*dist
+                );
+
+            return parallel_area;
+        }
+
+        public virtual void Create3DController(IView View)
+        {
+            BalderViewController = new Section3DViewControler
+                                       {
+                                           View = View
+                                       };
+            //BalderViewController.SelectElement();
+        }
+
+        public void SetUpScene()
+        {
+            if (BalderViewController != null)
+                BalderViewController.SetUpScene();
+            if (LiveGeometryController != null)
+                LiveGeometryController.SetUpScene();
+        }
+
+        public void DisplaySelectedSectionLayer(ThermalSection section)
+        {
+            ThermalSectionEditor.SectionLayerView.ViewModel = new SectionViewModel(section);
+        }
+
+        public void Initialize(ThermalSectionEditor _ThermalSectionEditor)
+        {
+            ThermalSectionEditor = _ThermalSectionEditor;
+           // Create3DController(_ThermalSectionEditor.SectionDarwingView);
+        }
+
+        #region View2D
+
+        private readonly BuildingModel Model2D = new BuildingModel();
+
+        private LiveGeometryController _LiveGeometryController;
+
+        private LiveGeometryController LiveGeometryController
+        {
+            get { return _LiveGeometryController; }
+            set
+            {
+                _LiveGeometryController = value;
+                _LiveGeometryController.Model = Model2D;
+                LiveGeometryController.PlaneType = PLANE_TYPE.elevation;
+            }
+        }
+
+        internal void Create2DController(Page view2D)
+        {
+            LiveGeometryController = new LiveGeometryController();
+
+            //LiveGeometryController.View = ThermalSectionEditor.View2D.DrawingControl.Drawing;
+        }
+
+        #endregion
+
+        internal   void AddMaterialLayerToSection()
+        {
+            (SelectedSection as CompositeThermalSection).Sections.Add(new ThermalSection());
+            FillDataGrid(this.SelectedSection);
+        }
+    }
+}

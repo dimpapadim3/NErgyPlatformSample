@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.NonAuthenticatedUserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="770" d:DesignWidth="705" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    
+    <Grid x:Name="LayoutRoot" Height="auto" Width="auto">
+        <Grid.Background>
+            <ImageBrush ImageSource="/NErgy.Silverlight;component/Assets/p16j7dve7k1iulbrllf1i41trk9.jpg" />
+        </Grid.Background>
+        <HyperlinkButton Click="HyperlinkButton_Click_User" >
+            <sdk:Label Height="93" Margin="12,12,-34,0" Name="label1" VerticalAlignment="Top"  Content="Συνδεθήτε για να Ξεκινήσετε" FontSize="48" Foreground="#FF2B2A2A"   />
+        </HyperlinkButton>
+        <HyperlinkButton Click="HyperlinkButton_Click" FontSize="28" Foreground="#FF2B2A2A" Height="93" Margin="12,74,-34,0" Name="label2" VerticalAlignment="Top" >
+            Η Συνδεθήτε σαν Demo Χρήστης
+       </HyperlinkButton> <!--LoginRegisterLinkStyle-->
+                  
+    </Grid>
+</UserControl>

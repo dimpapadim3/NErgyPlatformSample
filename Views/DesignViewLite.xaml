@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.DesignViewLite"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+  xmlns:view3D="clr-namespace:NCad.Views.Views3D;assembly=NCad.Application" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:Views="clr-namespace:NErgy.Silverlight.Views" xmlns:Babylon="clr-namespace:NCad.Application.Views.Views3D.Babylon;assembly=NCad.Application" 
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
+             mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"    
+             xmlns:my="clr-namespace:NCad.Application.Views;assembly=NCad.Application"
+             xmlns:Models="clr-namespace:NErgy.Silverlight.Web.Models"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" 
+             xmlns:viewModels="clr-namespace:NErgy.Silverlight.Views.ViewModels" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit" xmlns:liquidTreeView="clr-namespace:Liquid;assembly=Liquid.TreeView" KeyDown="MyTreeView_KeyDown" >
+
+    <UserControl.Resources>
+        <viewModels:IconConverter x:Key="IconConverter" />
+
+        <DataTemplate x:Key="ItemTemplate">
+            <Grid Width="300">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0"
+                                        EndPoint="0,1">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="LightGray" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="225"/>
+                    <ColumnDefinition Width="75"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="10, 5, 0, 5">
+                    <TextBlock
+                    FontSize="18"
+                    Text="{Binding Header}"/>
+          
+                </StackPanel>
+         
+            </Grid>
+        </DataTemplate>
+
+        <!--<sdk:HierarchicalDataTemplate x:Key="SearatingSurfaceTemplate" >
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter  Margin="0 0 4 0"
+            Content="{Binding Converter={StaticResource IconConverter}}" Height="30" Width="30" />
+
+                <TextBlock FontStyle="Italic" Text="Διαχωριστική" />
+ 
+
+            </StackPanel>
+        </sdk:HierarchicalDataTemplate>
+
+        <sdk:HierarchicalDataTemplate x:Key="ShellTemplate"  ItemsSource="{Binding SeparatingSurfuces}"
+        ItemTemplate="{StaticResource SearatingSurfaceTemplate}">
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter  Margin="0 0 4 0"
+            Content="{Binding Converter={StaticResource IconConverter}}" Height="30" Width="30" />
+
+                <TextBlock FontStyle="Italic" Text="Κέλυφος" />
+               
+
+            </StackPanel>
+        </sdk:HierarchicalDataTemplate>
+
+        <sdk:HierarchicalDataTemplate x:Key="ThermalZoneTemplate"   ItemsSource="{Binding Shells}"   ItemTemplate="{StaticResource ShellTemplate}">
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter  Margin="0 0 4 0"
+            Content="{Binding Converter={StaticResource IconConverter}}" Height="30" Width="30" />
+      
+                <TextBlock FontStyle="Italic" Text="Ζώνη" />
+                
+         
+            </StackPanel>
+        </sdk:HierarchicalDataTemplate>
+  
+        
+        <sdk:HierarchicalDataTemplate x:Key="BuildingTemplate" 
+                   ItemsSource="{Binding Path=BuildingModel.ThermalZones}"
+        ItemTemplate="{StaticResource ThermalZoneTemplate}">
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter  Margin="0 0 4 0"
+            Content="{Binding Converter={StaticResource IconConverter}}" Height="30" Width="30" />
+                <TextBlock FontStyle="Italic" Text="Κτήριο" />
+            </StackPanel>
+        </sdk:HierarchicalDataTemplate>
+        
+        <sdk:HierarchicalDataTemplate x:Key="ProjectTemplate" 
+       ItemsSource="{Binding Buildings}"
+        ItemTemplate="{StaticResource BuildingTemplate}">
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter 
+            Margin="0 0 4 0"
+            Content="{Binding Converter={StaticResource IconConverter}}" Height="30" Width="30" />
+           
+
+                <TextBlock Text="{Binding Path=ProjectTitle}" FontWeight="Bold" />
+            </StackPanel>
+        </sdk:HierarchicalDataTemplate>-->
+
+    </UserControl.Resources>
+    <ScrollViewer x:Name="PageScrollViewer" Margin="0,0,-105,-30">
+
+        <Grid x:Name="LayoutRoot" DataContext="{Binding}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"  ></RowDefinition>
+                <RowDefinition Height="auto"  ></RowDefinition>
+                <RowDefinition ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="2000"></ColumnDefinition>
+                <ColumnDefinition Width="Auto" ></ColumnDefinition>
+                <ColumnDefinition Width="Auto" ></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Views:NonAuthenticatedUserPage x:Name="nonAnthenticatedUser"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3" Width="auto" Height="auto"/>
+
+            <!--<views:ToolbarView Grid.Column="0" Grid.Row="0">
+              
+            </views:ToolbarView>-->
+            <!--<ContentControl Grid.Column="1" Grid.Row="0" Name="_MainRegion"  />-->
+            <Controls:TransitioningContentControl Transition = "UpTransition" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Name="_MainRegion" >
+
+            </Controls:TransitioningContentControl>
+            <!--<ScrollViewer    >
+
+            </ScrollViewer>-->
+
+            <liquidTreeView:Tree x:Name="MyTreeView" Grid.Row="0" Grid.Column="0" 
+                                 BorderThickness="1" 
+                          Height="1000"
+                                 EnableLines="True" EnableDragAndDrop="False" Drop="Tree_Drop" 
+                                 SelectionChanged="MyTreeView_SelectedItemChangedLiquid"
+                                 NodeDoubleClick="Tree_NodeDoubleClick" KeyDown="MyTreeView_KeyDown" 
+                                  
+                                 NodeEdited="TestTree_NodeEdited">
+                <liquidTreeView:Node ID="0" ConnectorLinesBrush="Red" Title="NErgy Ενεργειακή Μελέτη" Icon="images/folder.png" IconExpanded="images/folderOpen.png">
+                </liquidTreeView:Node>
+                <toolkit:ContextMenuService.ContextMenu>
+
+                    <toolkit:ContextMenu  Name="ContextMenu" Opened="ContextMenu_Opened"  >
+
+
+                    </toolkit:ContextMenu>
+
+                </toolkit:ContextMenuService.ContextMenu>
+            </liquidTreeView:Tree>
+    
+            <!--<sdk:TreeView Grid.Column="0" Grid.Row="0"  
+                                  Grid.RowSpan="2" 
+                                  Background="LightGray"
+                              x:Name="MyTreeView"
+                       
+                              BorderThickness="0,0,0,0" SelectedItemChanged="MyTreeView_SelectedItemChanged" >
+
+             
+                <toolkit:ContextMenuService.ContextMenu>
+
+                    <toolkit:ContextMenu  Opened="ContextMenu_Opened" ItemsSource="{Binding Path=TreeViewdMenuItems}">
+
+
+                    </toolkit:ContextMenu>
+
+                </toolkit:ContextMenuService.ContextMenu>
+            </sdk:TreeView>-->
+        </Grid>
+    </ScrollViewer>
+</UserControl>

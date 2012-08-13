@@ -1,0 +1,29 @@
+--- ProjectsPreviewView.xaml.cs
++++ ProjectsPreviewView.xaml.cs
+@@ -18,12 +18,24 @@
+ 
+         protected Mediator Mediator;
+ 
+-        public ProjectsPreviewView()
++        public ProjectsPreviewView( )
+         {
+             InitializeComponent();
+-             ProjectListViewModel.BuildingInProjectLoaded += BuildingLoaded;
++            AllowRotation = true;
++            ProjectListViewModel.BuildingInProjectLoaded += BuildingLoaded;
+         }
+ 
++        private bool allowRotation;
++        public bool AllowRotation
++        {
++            get { return allowRotation; }
++            set
++            {
++                allowRotation = value;
++                if (allowRotation)mainView3D.RotateScene();
++                else mainView3D.StopRotating();
++            }
++        }
+         public Project Project
+         {
+             get { return (Project)GetValue(ProjectProperty); }

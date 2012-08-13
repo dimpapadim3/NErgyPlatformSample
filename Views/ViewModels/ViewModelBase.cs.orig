@@ -1,0 +1,135 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
+using System.Reflection;
+using System.Resources;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using NErgy.Silverlight.Models;
+using SimpleMvvmToolkit;
+
+namespace NErgy.Silverlight.Views.ViewModels
+{
+
+    public class EnumObject<TType>
+    {
+        public EnumObject(string name, TType id)
+        {
+            Name = name;
+            Id = id;
+        }
+
+        public string Name { get; set; }
+        public TType Id { get; set; } 
+    }
+
+    public class ViewModelBase<T> :SimpleMvvmToolkit.ViewModelBase<T> ,IEditableObject 
+    {
+
+        public static TT[] GetEnumValues<TT>()
+        {
+            var type = typeof(TT);
+            if (!type.IsEnum)
+                throw new ArgumentException("Type '" + type.Name + "' is not an enum");
+
+            return (
+              from field in type.GetFields(BindingFlags.Public | BindingFlags.Static)
+              where field.IsLiteral
+              select (TT)field.GetValue(null)
+            ).ToArray();
+        }
+
+
+        public static string[] GetEnumStrings<TT>()
+        {
+            var type = typeof(T);
+            if (!type.IsEnum)
+                throw new ArgumentException("Type '" + type.Name + "' is not an enum");
+
+            return (
+              from field in type.GetFields(BindingFlags.Public | BindingFlags.Static)
+              where field.IsLiteral
+              select field.Name
+            ).ToArray();
+        }
+
+
+        public static IList<EnumObject<TT>> GetEnumList<TT>()
+        {
+            var type = typeof(TT);
+            if (!type.IsEnum)
+                throw new ArgumentException("Type '" + type.Name + "' is not an enum");
+
+            return (
+                       from field in type.GetFields(BindingFlags.Public | BindingFlags.Static)
+                       where field.IsLiteral
+                       select new EnumObject<TT>(GetLocalizedName(field.Name),(TT)field.GetValue(null))
+                   ).ToList();
+        }
+
+        private static  ResourceWrapper resources = new ResourceWrapper();
+
+        private static string GetLocalizedName(string name)
+        {
+            ResourceManager resourceManager =ApplicationStrings.ResourceManager; //new ResourceManager("ApplicationStrings", typeof(ApplicationStrings).GetType().Assembly);
+            var localizedstring  =  (string)resourceManager.GetString(name);
+            if(localizedstring==null) localizedstring = name;
+            return localizedstring;
+        }
+
+
+        //    protected virtual void AssociateProperties<TModelResult, TViewModelResult>
+    //(Expression<Func<TModel, TModelResult>> modelProperty,
+    //    Expression<Func<TViewModel, TViewModelResult>> viewModelProperty)
+    //    {
+    //        // Convert expressions to a property names
+    //        string modelPropertyName = ((MemberExpression)modelProperty.Body).Member.Name;
+    //        string viewModelPropertyName = ((MemberExpression)viewModelProperty.Body).Member.Name;
+
+    //        // Propagate model to view-model property change
+    //        Model. += (s, ea) =>
+    //        {
+    //            if (ea.PropertyName == modelPropertyName)
+    //            {
+    //                BindingHelper.InternalNotifyPropertyChanged(viewModelPropertyName,
+    //                    this, base.propertyChanged);
+    //            }
+    //        };
+    //    }
+ 
+        //TODO : Use Injection here 
+        protected IDataAccesLayerServiceAgent DataAccesLayerService = new  DataAccesLayerServiceAgent();
+        protected StandardsDataAccesServiceAgent StandardsServiceLayer = new StandardsDataAccesServiceAgent();
+    
+ 
+        public virtual void BeginEdit()
+        {
+
+        }
+
+        public virtual void CancelEdit()
+        {
+
+        }
+
+        public virtual void EndEdit()
+        {
+
+        }
+
+
+
+
+
+    }
+}

@@ -1,0 +1,204 @@
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using DynamicGeometry;
+using NCad.Application.Views.Controllers;
+using NCad.Models;
+using NCad.Views.Views3D;
+using NErgy.Building;
+using NErgy.Building.Calculations;
+using NErgy.Silverlight.Models;
+
+namespace NErgy.Silverlight.Views.Controllers
+{
+    public class Mediator : NCad.Application.Views.Controllers.Mediator
+    {
+        private static Mediator instance;
+
+        private readonly CalculationEngine _CalculationEngine = new CalculationEngine();
+        public SectionEditorController SectionEditorController;
+        private ThermalSectionEditor _ThermalSectionEditor; // = new ThermalSectionEditor();
+        private OpeningEditorController openingcontroller;
+
+        #region Views region
+
+        private ToolbarView _ToolbarView;
+        public DesignView DesignView { get; set; }
+
+        public ToolbarView ToolbarView
+        {
+            get { return _ToolbarView; }
+            set
+            {
+                _ToolbarView = value;
+                _ToolbarView.CommandSelected += _ToolbarView_CommandSelected;
+            }
+        }
+
+        #endregion
+
+        private Mediator(ThermalBuildingModel Model)
+            : base(Model)
+        {
+            SectionEditorController = new SectionEditorController {ActionManager = ActionManager};
+        }
+
+        public static Mediator Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Mediator(ThermalBuildingModel.Instance);
+                    instance.ActionManager = new ActionManager();
+                }
+                return instance;
+            }
+        }
+
+        private ControllState ConstrolState { get; set; }
+
+        public ThermalBuildingModel Model
+        {
+            get { return base.Model as ThermalBuildingModel; }
+        }
+
+        private void _ToolbarView_CommandSelected(object sender, EventArgs e)
+        {
+            ConstrolState = sender as ControllState;
+            if (ConstrolState is AddBeamFree)
+            {
+                DesignView.mainview2D.DrawingControl.Drawing.Behavior = new SegmentCreator();
+            }
+            if (ConstrolState is AddSlabRectangular)
+            {
+                DesignView.mainview2D.DrawingControl.Drawing.Behavior = new SquareCreator();
+            }
+
+            if (ConstrolState is SelectionState)
+            {
+                DesignView.mainview2D.DrawingControl.Drawing.Behavior = new Dragger();
+            }
+
+           
+        }
+
+        internal
+            void EditStory(BuildingStory buildingStory)
+        {
+            Controller2D.ClearView();
+            Controller2D.SetStoryPlane(buildingStory.StoryPlane);
+
+            Controller2D.Model = Model;
+            Controller2D.SetUpScene();
+        }
+
+
+        public void CalculateEnergyNeeds()
+        {
+            _CalculationEngine.CaluclateEnergyNeeds(Model.Project.Buildings);
+        }
+
+        public void ValidateThermalElementsMaxU()
+        {
+            _CalculationEngine.CheckMaxU(Model.Project.Buildings);
+        }
+
+
+        public void Add3DView()
+        {
+            Controller3D.Model = Model;
+            var view = new BalderView {Width = 500, Height = 300};
+            DesignView.MainRegion.Content = view;
+            Controller3D.View = view;
+            Controller3D.SetUpScene();
+        }
+
+        protected override BalderViewController CreateController3D()
+        {
+            return new NErgyBalderViewController {ActionManager = ActionManager};
+        }
+
+        protected override LiveGeometryController CreateController2D()
+        {
+            return new NErgyLivegeometryViewController {ActionManager = ActionManager};
+        }
+
+        internal void OpenNewSectionEditor(object p)
+        {
+            _ThermalSectionEditor = new ThermalSectionEditor();
+
+            SectionEditorController.Initialize(_ThermalSectionEditor);
+            SectionEditorController.Create3DController(Controller3D.View); //_ThermalSectionEditor.SectionDarwingView);
+            //SectionEditorController.Create2DController(_ThermalSectionEditor.DrawingView2D);
+            //SectionEditorController.SelectedSection = SectionEditorController.TestCompositeThermalSection();
+            if (Model.CurrentSelectedItem is IThermalElement)
+               SectionEditorController.SelectedCompositeSection = (Model.CurrentSelectedItem as IThermalElement).Section;
+            SectionEditorController.SetUpScene();
+
+
+            //_ThermalSectionEditor.SectionDarwingView.IsPaused = false;
+
+            ShowAsChildWindow(_ThermalSectionEditor);
+            //this.Controller3D.PauseRendering = true;
+            //this.DesignView.MainRegion.Content = new ThermalSectionEditor();
+        }
+
+        private void ShowAsChildWindow(object ContentControl)
+        {
+            var SectionWindow = new ChildWindow();
+            SectionWindow.Height = 500;
+            SectionWindow.Width = 800;
+
+            SectionWindow.Content = ContentControl;
+            SectionWindow.Visibility = Visibility.Visible;
+            SectionWindow.Show();
+            //SectionWindow.Closing += new EventHandler<System.ComponentModel.CancelEventArgs>(SectionWindow_Closing);
+        }
+
+        public static ChildWindow OpenWindow(object ContentControl)
+        {
+            
+            var SectionWindow = new ChildWindow();
+            SectionWindow.Height = 500;
+            SectionWindow.Width = 700;
+
+            SectionWindow.Content = ContentControl;
+            SectionWindow.Visibility = Visibility.Visible;
+            SectionWindow.Title = ApplicationStrings.MaterialTitle;
+            SectionWindow.Show();
+            return SectionWindow;
+        }
+
+        public static void OpenInRegion(ContentControl region, object contentControl)
+        {
+            region.Content = contentControl;
+        }
+
+
+        internal void OpenNewOpeningsEditor(object p)
+        {
+            openingcontroller = new OpeningEditorController();
+            openingcontroller.View = DesignView.mainView3D;
+            openingcontroller.AddOpeningToView(p as Opening);
+
+            var _OpeningEditor = new OpeningEditor();
+            _OpeningEditor.TransparentElement = (p as Opening).ThermalOpening as KoufomaMono;
+            //var window = OpenWindow(_OpeningEditor);
+            //window.Closing += new EventHandler<System.ComponentModel.CancelEventArgs>(window_Closing);
+
+            OpenInRegion(DesignView.SecondaryRegion, _OpeningEditor);
+        }
+
+        private void window_Closing(object sender, CancelEventArgs e)
+        {
+            openingcontroller.ClearOpeningFromView();
+        }
+
+        internal void OpenShadingElementEditor(IStructuralArea iStructuralArea)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

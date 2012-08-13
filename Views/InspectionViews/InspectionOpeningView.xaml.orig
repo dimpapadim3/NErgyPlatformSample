@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.InspectionOpeningView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+           xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    d:DesignHeight="444" d:DesignWidth="576" 
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" 
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" xmlns:Helpers="clr-namespace:NErgy.Silverlight.Helpers" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <Helpers:EnumResourceValueConverter x:Key="EnumResourceValueConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White" Height="528" Width="623" DataContext="{Binding}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="310*" />
+            <ColumnDefinition Width="75*" />
+            <ColumnDefinition Width="75*" />
+        </Grid.ColumnDefinitions>
+    
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="428*" />
+        </Grid.RowDefinitions>           <!--<toolkit:DataForm Name="DataForm" AutoGenerateFields="False" CurrentItem="{Binding}" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,0" AutoEdit="False"   >
+            <toolkit:DataForm.EditTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <toolkit:DataField Grid.Row="0" Grid.Column="0" Label="Theraml Capacity Coef" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=TheramlCapacityCoef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+                        <toolkit:DataField Grid.Row="1" Grid.Column="0" Label="Theraml Conductivity Coef" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=TheramlConductivityCoef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+                    </Grid>
+                </DataTemplate>
+            </toolkit:DataForm.EditTemplate>
+            <toolkit:DataForm.ReadOnlyTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <toolkit:DataField Grid.Row="0" Grid.Column="0" Label="Theraml Capacity Coef" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=TheramlCapacityCoef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+                        <toolkit:DataField Grid.Row="1" Grid.Column="0" Label="Theraml Conductivity Coef" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=TheramlConductivityCoef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+
+                    </Grid>
+                </DataTemplate>
+            </toolkit:DataForm.ReadOnlyTemplate>
+            <toolkit:DataForm.NewItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <toolkit:DataField Grid.Row="0" Grid.Column="0" Label="Theraml Capacity Coef" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=TheramlCapacityCoef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+                        <toolkit:DataField Grid.Row="1" Grid.Column="0" Label="Theraml Conductivity Coef" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=TheramlConductivityCoef, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </toolkit:DataField>
+
+
+                    </Grid>
+                </DataTemplate>
+            </toolkit:DataForm.NewItemTemplate>
+
+        </toolkit:DataForm>-->
+
+        <ComboBox   Grid.Row="0" Width="100" Margin="0,0,320,0" 
+                                        ItemsSource="{Binding  Path=FrameTypes}" 
+                                        SelectedItem="{Binding Path=SelectedFrameType, Mode=TwoWay}" 
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+  
+        </ComboBox>
+
+
+        <ComboBox  Grid.Row="1" Width="100" SelectionChanged="libraryListBox_SelectionChanged"
+                                        ItemsSource="{Binding  Path=GlassTypes}" 
+                                        SelectedItem="{Binding Path=SelectedglassType, Mode=TwoWay}" 
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,320,0">
+
+        </ComboBox>
+
+        <Grid Grid.ColumnSpan="3" Margin="0,0,38,0">
+                        <!-- Bind IsBusy to IsBusy -->
+                        <toolkit:BusyIndicator Name="isBusyIndicator" Height="80" Width="200" 
+                IsBusy="{Binding LibrariesListViewModel.IsBusy}" Margin="14,84,371,364" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="127,-1,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" Text="{Binding DefaultUg}"/>
+        </Grid>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="131,0,0,0" Name="textBox2" VerticalAlignment="Top" Width="120" Grid.Row="1" />
+    </Grid>
+</UserControl>

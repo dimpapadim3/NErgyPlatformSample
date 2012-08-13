@@ -1,0 +1,153 @@
+﻿<UserControl xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"  x:Class="NErgy.Silverlight.Views.BuildingViews.BuildingUsageControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:liquidTreeView="clr-namespace:Liquid;assembly=Liquid.TreeView" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Helpers="clr-namespace:NErgy.Silverlight.Helpers" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <Helpers:VisibilityConverter x:Key="VisibilityConverter" />
+        <Helpers:DateConverter x:Key="DateConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <StackPanel  Orientation="Horizontal">
+            <Button Width="100" Height="20" Content="Επιλογή Χρήσης" Visibility="{Binding IsbuttonVisibility,Converter={StaticResource VisibilityConverter}}" Click="ButtonBase_OnClick" />
+            <TextBlock Text="{Binding Path=SelectedUsageType.Name,UpdateSourceTrigger=PropertyChanged}" Width="auto" Height="20" Visibility="{Binding IsbuttonVisibility,Converter={StaticResource VisibilityConverter}}" />
+            <ContentControl Name="usagecontent" Visibility="{Binding IsTreeViewVisibility,Converter={StaticResource VisibilityConverter}}">
+
+                <sdk:TreeView SelectedItemChanged="TreeView_SelectedItemChanged"  Visibility="{Binding IsTreeViewVisibility,Converter={StaticResource VisibilityConverter}}" >
+
+
+
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[0]}" >
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[0].Name}" Tag="{Binding Path=UsageTypes[0]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[1].Name}" Tag="{Binding Path=UsageTypes[1]}"/>
+                    </sdk:TreeViewItem>
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[1]}"   >
+                        <sdk:TreeViewItem Header="Ξενοδοχείο" >
+
+                            <sdk:TreeViewItem Header="{Binding Path=UsageTypes[2].Name}" Tag="{Binding Path=UsageTypes[2]}"/>
+                            <sdk:TreeViewItem Header="{Binding Path=UsageTypes[3].Name}" Tag="{Binding Path=UsageTypes[3]}"/>
+                            <sdk:TreeViewItem Header="{Binding Path=UsageTypes[4].Name}" Tag="{Binding Path=UsageTypes[4]}"/>
+                        </sdk:TreeViewItem>
+                        <sdk:TreeViewItem Header="Ξενώνες" >
+
+                            <sdk:TreeViewItem Header="{Binding Path=UsageTypes[5].Name}" Tag="{Binding Path=UsageTypes[5]}"/>
+                            <sdk:TreeViewItem Header="{Binding Path=UsageTypes[6].Name}" Tag="{Binding Path=UsageTypes[6]}"/>
+                            <sdk:TreeViewItem Header="{Binding Path=UsageTypes[7].Name}" Tag="{Binding Path=UsageTypes[7]}"/>
+                        </sdk:TreeViewItem>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[8].Name}" Tag="{Binding Path=UsageTypes[8]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[9].Name}" Tag="{Binding Path=UsageTypes[9]}"/>
+                    </sdk:TreeViewItem>
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[2]}"   >
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[10].Name}" Tag="{Binding Path=UsageTypes[10]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[11].Name}" Tag="{Binding Path=UsageTypes[11]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[12].Name}" Tag="{Binding Path=UsageTypes[12]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[13].Name}" Tag="{Binding Path=UsageTypes[13]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[14].Name}" Tag="{Binding Path=UsageTypes[14]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[15].Name}" Tag="{Binding Path=UsageTypes[15]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[16].Name}" Tag="{Binding Path=UsageTypes[16]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[17].Name}" Tag="{Binding Path=UsageTypes[17]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[18].Name}" Tag="{Binding Path=UsageTypes[18]}"/>
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[19].Name}" Tag="{Binding Path=UsageTypes[19]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[20].Name}" Tag="{Binding Path=UsageTypes[20]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[21].Name}" Tag="{Binding Path=UsageTypes[21]}"/>
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[22].Name}" Tag="{Binding Path=UsageTypes[22]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[23].Name}" Tag="{Binding Path=UsageTypes[23]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[24].Name}" Tag="{Binding Path=UsageTypes[24]}"/>
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[25].Name}" Tag="{Binding Path=UsageTypes[25]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[26].Name}" Tag="{Binding Path=UsageTypes[26]}"/>
+
+                    </sdk:TreeViewItem>
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[3]}"   >
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[27].Name}" Tag="{Binding Path=UsageTypes[27]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[28].Name}" Tag="{Binding Path=UsageTypes[28]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[29].Name}" Tag="{Binding Path=UsageTypes[29]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[30].Name}" Tag="{Binding Path=UsageTypes[30]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[31].Name}" Tag="{Binding Path=UsageTypes[31]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[32].Name}" Tag="{Binding Path=UsageTypes[32]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[33].Name}" Tag="{Binding Path=UsageTypes[33]}"/>
+
+                    </sdk:TreeViewItem>
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[4]}"   >
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[34].Name}" Tag="{Binding Path=UsageTypes[34]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[35].Name}" Tag="{Binding Path=UsageTypes[35]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[36].Name}" Tag="{Binding Path=UsageTypes[36]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[37].Name}" Tag="{Binding Path=UsageTypes[37]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[38].Name}" Tag="{Binding Path=UsageTypes[38]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[39].Name}" Tag="{Binding Path=UsageTypes[39]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[40].Name}" Tag="{Binding Path=UsageTypes[40]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[41].Name}" Tag="{Binding Path=UsageTypes[41]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[42].Name}" Tag="{Binding Path=UsageTypes[42]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[43].Name}" Tag="{Binding Path=UsageTypes[43]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[44].Name}" Tag="{Binding Path=UsageTypes[44]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[45].Name}" Tag="{Binding Path=UsageTypes[45]}"/>
+
+
+                    </sdk:TreeViewItem>
+
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[5]}"   >
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[46].Name}" Tag="{Binding Path=UsageTypes[46]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[47].Name}" Tag="{Binding Path=UsageTypes[47]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[48].Name}" Tag="{Binding Path=UsageTypes[48]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[49].Name}" Tag="{Binding Path=UsageTypes[49]}"/>
+                        
+ 
+                    </sdk:TreeViewItem>
+
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[6]}"   >
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[50].Name}" Tag="{Binding Path=UsageTypes[50]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[51].Name}" Tag="{Binding Path=UsageTypes[51]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[52].Name}" Tag="{Binding Path=UsageTypes[52]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[53].Name}" Tag="{Binding Path=UsageTypes[53]}"/>
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[54].Name}" Tag="{Binding Path=UsageTypes[54]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[55].Name}" Tag="{Binding Path=UsageTypes[55]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[56].Name}" Tag="{Binding Path=UsageTypes[56]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[57].Name}" Tag="{Binding Path=UsageTypes[57]}"/>
+
+                    </sdk:TreeViewItem>
+
+                    <sdk:TreeViewItem Header="{Binding Path=UsageTitleStrings[7]}"   >
+
+
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[58].Name}" Tag="{Binding Path=UsageTypes[58]}"/>
+                        <sdk:TreeViewItem Header="{Binding Path=UsageTypes[59].Name}" Tag="{Binding Path=UsageTypes[59]}"/>
+                       
+
+                    </sdk:TreeViewItem>
+                </sdk:TreeView>
+            </ContentControl>
+        </StackPanel>
+        <!--<TreeView x:Name="MyTreeView" Grid.Row="0" Grid.Column="0"
+                                 BorderT hickness="1"
+                          DataContext="{Binding}"
+                                 EnableLines="True" EnableDragAndDrop="False" Drop="Tree_Drop" SelectionChanged="MyTreeView_SelectedItemChangedLiquid" NodeDoubleClick="Tree_NodeDoubleClick" NodeEdited="TestTree_NodeEdited">
+            <liquidTreeView:Node ID="0" ConnectorLinesBrush="Red" Title="{Binding Path=UsageTitleStrings[0]}" Icon="images/folder.png" IconExpanded="images/folderOpen.png"/>
+
+
+        </TreeView>-->
+
+    </Grid>
+</UserControl>

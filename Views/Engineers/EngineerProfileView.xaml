@@ -1,0 +1,25 @@
+﻿<navigation:Page x:Class="NErgy.Silverlight.Views.Engineers.EngineerProfileView" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+                 xmlns:m="clr-namespace:Microsoft.Maps.MapControl;assembly=Microsoft.Maps.MapControl"
+           d:DesignWidth="1000" d:DesignHeight="572"
+           Title="Page1 Page" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    <Grid x:Name="LayoutRoot" Height="541" Width="820">
+        <Image Height="150" HorizontalAlignment="Left" Margin="24,37,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="205" />
+        <sdk:Label Height="28" HorizontalAlignment="Left" Margin="24,12,0,0" Name="label1" VerticalAlignment="Top" Width="120" Content="Το Λογότυπο σας" />
+        <Button Content="Ανεβάστε νέο" Height="23" HorizontalAlignment="Left" Margin="24,193,0,0" Name="button1" VerticalAlignment="Top" Width="92" />
+        <TextBox Height="167" HorizontalAlignment="Right" Margin="0,281,591,0" Name="textBox1" VerticalAlignment="Top" Width="205" />
+        <sdk:Label Height="28" HorizontalAlignment="Left" Margin="24,258,0,0" Name="label2" VerticalAlignment="Top" Width="55" Content="Σχετικά " />
+
+        <m:Map x:Name="mainMap" CredentialsProvider="AliveLsVdOVnhqNkgV_FToj2KurkqQev_CRld2F-3TRGJMzq5q8ycnNR9REGotXB" Mode="Road"   ZoomLevel="10" Margin="246,37,0,160" />
+        <TextBox x:Name="Input" KeyDown="Input_KeyDown" GotFocus="Input_GotFocus" Text="Βαλτε εδώ την διέυθηνση σας" FontSize="13" HorizontalAlignment="Stretch" Margin="246,392,226,116" 
+                  
+                 />
+        <Button Content="Find" Click="Button_Click" Margin="600,392,109,116" />
+        <TextBlock x:Name="Output" FontSize="10" Foreground="Red" Margin="14,0,0,0" VerticalAlignment="Center" />
+    </Grid>
+</navigation:Page>

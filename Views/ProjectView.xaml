@@ -1,0 +1,230 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.ProjectView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:dataFormToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" mc:Ignorable="d"
+    d:DesignHeight="615" d:DesignWidth="1049" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:Views="clr-namespace:NErgy.Silverlight.Views" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" xmlns:BuildingViews="clr-namespace:NErgy.Silverlight.Views.BuildingViews">
+
+    <Grid x:Name="LayoutRoot" Background="White" >
+
+
+ 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+                
+                    <dataFormToolkit:DataForm Grid.Row="0" Grid.Column="0"   Name="df1" AutoGenerateFields="False" AutoEdit="True" AutoCommit="False" CancelButtonContent="Ακύρωση" CurrentItem="{Binding}" Grid.ColumnSpan="3"  >
+                        <dataFormToolkit:DataForm.EditTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="700"/>
+                                        <ColumnDefinition Width="300"/>
+                                    </Grid.ColumnDefinitions>
+                                    <dataFormToolkit:DataField Grid.Row="1" Grid.Column="0" Label="Τιτλος Έργου" LabelPosition="Auto">
+                                        <TextBox Text="{Binding Path=ProjectTitle, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="2" Grid.Column="0" Label="Χρήση Κτιρίου" LabelPosition="Auto">
+                                        <BuildingViews:BuildingUsageControl    UsageId="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ProjectViewSingleProjectPreview}, Path=ViewModel.ProjectViewModel.ProjectUseageId,Mode=TwoWay}" Width="auto" Height="auto"/>
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="3" Grid.Column="0" Label="Τμήμα Κτιρίου" LabelPosition="Auto">
+                                        <CheckBox IsChecked="{Binding  Path=IsBuildingMember, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+
+                                        </CheckBox>
+                                    </dataFormToolkit:DataField>
+
+                                    <dataFormToolkit:DataField Grid.Row="4" Grid.Column="0" Label="ΚΑΕΚ" LabelPosition="Auto">
+                                        <TextBox Text="{Binding Path=KAEK, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="5" Grid.Column="0" Label="Ιδιοκτησιακο Καθεστώς:" LabelPosition="Auto">
+                                        <ComboBox  
+                                        ItemsSource="{Binding  Path=OwnershipTypes, UpdateSourceTrigger=PropertyChanged}" 
+                                  
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=OwnerShiptype,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                        </ComboBox>
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="6" Grid.Column="0" Label="Ταχυδρομική Διέυθηνση" LabelPosition="Auto">
+                                        <TextBox Text="{Binding Path=Address, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>
+
+                                    <!--<dataFormToolkit:DataField Grid.Row="4" Grid.Column="0" Label="Owners Names" LabelPosition="Auto">
+                                        <Grid>
+                                            <Button Content="Edit" Command="{Binding Path=EditEngineerCommand}"></Button>
+                                            <sdk:DataGrid SelectedItem="{Binding Path=SelectedEngineer}" ItemsSource="{Binding Path=OwnersNames, Mode=TwoWay}" />
+
+                                        </Grid>
+                                       <TextBox Text="{Binding Path=OwnersNames, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" /> 
+                                    </dataFormToolkit:DataField>-->
+                                    <!--<dataFormToolkit:DataField Grid.Row="5" Grid.Column="0" Label="Engineers" LabelPosition="Auto" >
+                                        <sdk:DataGrid ItemsSource="{Binding Path=Engineers, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>-->
+                                    <dataFormToolkit:DataField Grid.Row="7" Grid.Column="0" Label="Στοιχεία επικοινωνίας υπευθυνου:" LabelPosition="Auto">
+                                        <ComboBox  
+                                        ItemsSource="{Binding  Path=OwnershipContactInformations, UpdateSourceTrigger=PropertyChanged}" 
+                                  
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=OwnershipContactInfoId,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                        </ComboBox>
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="8" Grid.Column="0" Label="Ονοματεπώνημο" LabelPosition="Auto">
+                                        <TextBox Text="{Binding Path=OwnerName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="9" Grid.Column="0" Label="Τηλέφωνο Φάξ" LabelPosition="Auto">
+                                        <TextBox Text="{Binding Path=OwnerShipNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>
+                                    <dataFormToolkit:DataField Grid.Row="10" Grid.Column="0" Label="Email" LabelPosition="Auto">
+                                        <TextBox Text="{Binding Path=OwnerEmail, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                                    </dataFormToolkit:DataField>
+
+
+                                    <dataFormToolkit:DataField Grid.Row="11" Grid.Column="0" Label="Κλιματολογικά Δεδομένα" LabelPosition="Auto">
+                                        <StackPanel  Orientation="Horizontal">
+                                            <ComboBox  Width="100"
+                                        ItemsSource="{Binding  Path=GreeceLocations, UpdateSourceTrigger=PropertyChanged}" 
+                                  
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=ProjectKlimaticData,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                            </ComboBox>
+
+
+                                            <CheckBox  Content="Υψόμετρο πάνω απο 500" IsChecked="{Binding  Path=AltitudeOver500m, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+
+                                            </CheckBox>
+                                            <sdk:Label>Ζώνη:</sdk:Label>
+                                            <ComboBox   Width="100"
+                                        ItemsSource="{Binding  Path=KlimaticZones, UpdateSourceTrigger=PropertyChanged}" 
+                                  
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=KlimaticZoneID,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </dataFormToolkit:DataField>
+
+                                    <dataFormToolkit:DataField Grid.Row="12" Grid.Column="0" Label="Πηγές Δεδομένων" LabelPosition="Auto" Visibility="{Binding IsEnergyStudy,Converter={StaticResource ReverseVisibilityConverter}}">
+                                        <StackPanel>
+                                            <!--<Grid >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="300"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>-->
+
+                                            <CheckBox  Content="Αρχιτεκτονικά σχέδια" IsChecked="{Binding  Path=DataSourceArcitectural, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Η/Μ Σχέδια" IsChecked="{Binding  Path=DataSourceHM, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Φύλλο Συντήρησης Λέβητα" IsChecked="{Binding  Path=DataSourcefyloSyntirisisLevita, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Φύλλο Συντήρησης Συστήματος Κλιματισμού" IsChecked="{Binding  Path=DataSourcefylosisntirisisKlimatismou, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Τιμολόγια ενεργειακών καταναλώσεων" IsChecked="{Binding  Path=DataSourceTimologiaEnergeiakvnKataNalwsewn, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <!--<CheckBox  Content="Τιμολόγια ενεργειακών καταναλώσεων" IsChecked="{Binding  Path=AltitudeOver500m, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>-->
+                                            <CheckBox  Content="Έντυπο Ενεργειακής Επιθεώρησης Λέβητα" IsChecked="{Binding  Path=DataSourceEnergeiakiEpithewrisiLevita, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Έντυπο Ενεργειακής Επιθεώρησης Συστήματος Θέρμανσης" IsChecked="{Binding  Path=DataSourceEpithewrisiSystimatosThermansis, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Έντυπο Ενεργειακής Επιθεώρησης Συστήματος Κλιματισμού" IsChecked="{Binding  Path=DataSourceEpithewrisisKlimatismou, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                            <CheckBox  Content="Πληροφορίες από Ιδιοκτήτη/Διαχειριστή" IsChecked="{Binding  Path=DataSourceDiaxiristis, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+
+                                        </StackPanel>
+
+                                        <!--</Grid>-->
+                                    </dataFormToolkit:DataField>
+
+                                </Grid>
+                            </DataTemplate>
+                        </dataFormToolkit:DataForm.EditTemplate>
+                    </dataFormToolkit:DataForm>
+                    <ContentControl x:Name="regionmain"  Grid.Row="0" Grid.Column="1" Visibility="Collapsed" ></ContentControl>
+                    <Rectangle Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Height="50" Fill="DarkGray"></Rectangle>
+        <StackPanel Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="3"  DataContext="{Binding Path=PoleodomiesCollectionViewModel}">
+                        <sdk:DataGrid  ItemsSource="{Binding  Path=EntityObjects}" AutoGenerateColumns="False" >
+                            <sdk:DataGrid.Columns>
+                                <sdk:DataGridTextColumn Binding="{Binding PoleodomikoGrafeioEkdosis}" Header="Πολεοδομικο Γραφείο Έκδοσής Πολεοδομικής άδειας"/>
+                                <sdk:DataGridTextColumn Binding="{Binding Year}" Header="Έτος"/>
+                                <sdk:DataGridTextColumn Binding="{Binding Number}" Header="Αριθμός"/>
+                                <sdk:DataGridTextColumn Binding="{Binding FinnishingYear}" Header="Έτος ολοκλήρωσης"/>
+                                <sdk:DataGridTemplateColumn >
+                                    <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <ComboBox  Width="100"
+                                     ItemsSource="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ProjectView}, Path=ViewModel.PoleodomiaTypes}" 
+                                  
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=TypeID,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                            </ComboBox>
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                </sdk:DataGridTemplateColumn>
+
+                            </sdk:DataGrid.Columns>
+                        </sdk:DataGrid>
+
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button  Width="70"  Command="{Binding EndEditTranslucentCommand}" IsEnabled="{Binding IsEnabledEntityObjectEndEdit}">OK</Button>
+                            <Button Command="{Binding CancelEditEntityObjectCommand}" Content="Ακύρωση"   Width="70"   />
+                        </StackPanel>
+                    </StackPanel>
+                    <Button x:Name="addNewButton" Grid.Row="1" Content="Προσθήκη Νέου" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="111" Visibility="Collapsed" />
+ 
+                
+           
+    </Grid>
+</UserControl>

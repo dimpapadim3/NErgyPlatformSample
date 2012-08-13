@@ -1,0 +1,61 @@
+--- EngineersGlobalView.xaml
++++ EngineersGlobalView.xaml
+@@ -3,7 +3,7 @@
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:dataFormToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" mc:Ignorable="d"
+-    d:DesignHeight="615" d:DesignWidth="1049" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:Views="clr-namespace:NErgy.Silverlight.Views" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:view2D="clr-namespace:LiveGeometry;assembly=LiveGeometry">
++    d:DesignHeight="763" d:DesignWidth="1049" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:Views="clr-namespace:NErgy.Silverlight.Views" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:view2D="clr-namespace:LiveGeometry;assembly=LiveGeometry">
+     <UserControl.Resources>
+         <!--  <Storyboard x:Name="myStoryboard">
+          
+@@ -34,21 +34,23 @@
+         </sdk:TabControl>-->
+ 
+       
+-            <Grid Background="WhiteSmoke" Height="868" VerticalAlignment="Top">
++            <Grid Background="#FFE2DEDC" Height="868" VerticalAlignment="Top">
+                 <Grid.RowDefinitions>
+                 <RowDefinition Height="100"/>
+                 <RowDefinition Height="100"/>
+                 <RowDefinition Height="100"/>
+-                <RowDefinition Height="600"/>
+-                    <RowDefinition Height="600"/>
+-                </Grid.RowDefinitions>
++                <RowDefinition Height="400"/>
++
++                <RowDefinition Height="Auto"/>
++                <RowDefinition Height="168*" />
++            </Grid.RowDefinitions>
+                 <Grid.ColumnDefinitions>
+                     <ColumnDefinition Width="200"/>
+-                    <ColumnDefinition Width="178"/>
+-                <ColumnDefinition Width="422" />
+-                <ColumnDefinition Width="249*" />
++                    <ColumnDefinition Width="400" />
++                    <ColumnDefinition Width="Auto"/>
++                <ColumnDefinition Width="449*" />
+             </Grid.ColumnDefinitions>
+-                <ListBox x:Name="projectsList" ItemsSource="{Binding Path=Projects}" SelectedItem="{Binding Path=SelectedProject, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="4">
++                <ListBox x:Name="projectsList" ItemsSource="{Binding Path=Projects}" SelectedItem="{Binding Path=SelectedProject, Mode=TwoWay}" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,-449,0">
+                     <ListBox.BorderBrush>
+                         <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                             <GradientStop Color="#FFA3AEB9" Offset="0" />
+@@ -137,7 +139,7 @@
+                     -->
+ 
+                 <!--  Single view for Blader   -->
+-                <Views:ProjectsPreviewViewSingleProject x:Name="projectpreview" Grid.Row="3" Grid.Column="1"  Height="600" BorderBrush="#FFE22626" Grid.ColumnSpan="2">
++                <Views:ProjectsPreviewViewSingleProject x:Name="projectpreview" Grid.Row="2" BorderBrush="#FFE22626" Margin="199,99,1,166" Grid.RowSpan="4" Grid.ColumnSpan="2">
+                     <toolkit:ContextMenuService.ContextMenu>
+ 
+                         <toolkit:ContextMenu x:Name="contextmenu" Opened="ContextMenu_Opened"  ItemsSource="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ProjectViewSingleProjectPreview}, Path=DesignViewModel.View3dMenuItems}">
+@@ -148,7 +150,7 @@
+                     </toolkit:ContextMenuService.ContextMenu>
+                 </Views:ProjectsPreviewViewSingleProject>
+                 <Button Content="Επεξεργασία" Height="24" HorizontalAlignment="Left" Margin="30,5,0,0" Name="button2" VerticalAlignment="Top" Width="90" Grid.Column="1" Grid.Row="1" Click="button2_Click" Visibility="Collapsed" />
+-            <sdk:Label Height="48" HorizontalAlignment="Center" Margin="6,46,44,0" Name="label1" VerticalAlignment="Top" Width="328" Content="Οι Τελευταιές ενεργειακές μελέτες" FontSize="18" Foreground="#FF6666D8" Grid.ColumnSpan="2" />
++            <sdk:Label Height="48" HorizontalAlignment="Center" Margin="6,46,44,0" Name="label1" VerticalAlignment="Top" Width="328" Content="Οι Τελευταιές μελέτες" FontSize="18" Foreground="#FF6666D8" Grid.ColumnSpan="2" />
+             <!--    <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Name="mainview2D2SV" >
+                       <view2D:Page x:Name="mainview2D" Width="500" Height="600"/>
+                     </ScrollViewer>-->

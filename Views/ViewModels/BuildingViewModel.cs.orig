@@ -1,0 +1,225 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Data;
+using NErgy.Building;
+using NErgy.Silverlight.Models;
+using BuildingCategory = NErgy.Silverlight.Web.Models.BuildingCategory;
+using BuildingUsage = NErgy.Silverlight.Web.Models.BuildingUsage;
+using Project = NErgy.Silverlight.Building.Project;
+
+namespace NErgy.Silverlight.Views.ViewModels
+{
+    public class BuildingViewModel : ViewModelBase
+    {
+
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion //Events
+
+        #region Declarations
+
+        private readonly Project _project;
+
+        public BuildingViewModel(Project project)
+        {
+            _project = project;
+            Building = project.Buildings.First() as Building.Building;
+            DataLayer.LoadingBuildingCategoriesCompleted += new EventHandler(DataLayer_LoadingBuildingCategoriesCompleted);
+
+        }
+
+        void DataLayer_LoadingBuildingCategoriesCompleted(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("BuildingCategoriesList");
+        }
+
+        public BuildingViewModel()
+        {
+        }
+
+        #endregion //Declarations
+
+        #region Properties
+
+        public ICollectionView BuildingUsageList
+        {
+            get { return new CollectionViewSource() { Source = new List<BuildingUsage>() }.View; }
+        }
+
+        public System.Windows.Controls.DomainDataSource BuildingUsageDataSource
+        {
+            get
+            {
+                var datasource = new DomainDataSource()
+                         {
+                             DomainContext = DataLayer.NErgyContext,
+                             QueryName = "GetBuildingUsageForCategoryQuery",
+
+                             AutoLoad = true,
+
+
+                         };
+                datasource.QueryParameters.Add(new Parameter() { ParameterName = "categoryID", Value = CategoryType.CategoryID });
+
+                datasource.LoadedData += (o, ea) => { RaisePropertyChanged("BuildingUsageDataSource"); };
+                datasource.Load();
+                return datasource;
+            }
+        }
+
+
+
+        public System.Windows.Controls.DomainDataSource BuildingCategoriesDataSource
+        {
+            get
+            {
+                var datasource = new DomainDataSource()
+                           {
+                               DomainContext = DataLayer.NErgyContext,
+                               QueryName = "GetBuildingCategoryQuery",
+                               AutoLoad = true,
+
+
+                           };
+
+                datasource.LoadedData += (o, ea) =>
+                {
+                    RaisePropertyChanged("BuildingCategoriesDataSource");
+             
+                };
+                datasource.Load();
+                return datasource;
+            }
+        }
+
+        private object GetBuildingCategory()
+        {
+            return null;
+        }
+
+        public ICollectionView BuildingCategoriesList
+        {
+            get
+            {
+                this.DataLayer.GetBuildingCategories();
+                var collectionView = new CollectionViewSource { Source = DataLayer.BuildingCategories };
+                return collectionView.View;
+            }
+        }
+
+        public Building.Building Building { get; set; }
+
+        public IList<NErgy.Building.BuildingStory> BuildingStories
+        {
+            get { return Building.BuildingStories; }
+            set
+            {
+                Building.BuildingStories = value;
+                RaisePropertyChanged("BuildingStories");
+            }
+        }
+
+        public BuildingCategory CategoryType
+        {
+            get { return Building.CategoryType; }
+            set
+            {
+                Building.CategoryType = value;
+                RaisePropertyChanged("CategoryType");
+                RaisePropertyChanged("BuildingUsageDataSource");
+            }
+        }
+
+        public ICollectionView NeigbourBuildings
+        {
+            get
+            {
+                var collectionView = new CollectionViewSource { Source = _project.NeighborBuildings };
+                return collectionView.View;
+            }
+        }
+
+
+        public Double FirstStoryHeight
+        {
+            get { return Building.FirstStoryHeight; }
+            set
+            {
+                Building.FirstStoryHeight = value;
+                RaisePropertyChanged("FirstStoryHeight");
+            }
+        }
+
+        public KlimaticZone KlimaticZone
+        {
+            get { return Building.KlimaticZone; }
+            set
+            {
+                Building.KlimaticZone = value;
+                RaisePropertyChanged("KlimaticZone");
+            }
+        }
+
+        public ICollectionView ThermalZones
+        {
+            get
+            {
+                var collectionView = new CollectionViewSource { Source = DataLayer.GetThermalZones() };
+                return collectionView.View;
+
+            }
+
+        }
+
+        public Double TypicalStoryHeight
+        {
+            get { return Building.TypicalStoryHeight; }
+            set
+            {
+                Building.TypicalStoryHeight = value;
+                RaisePropertyChanged("TypicalStoryHeight");
+            }
+        }
+
+        public BuildingUsage UsageType
+        {
+            get { return Building.UsageType; }
+            set
+            {
+                Building.UsageType = value;
+                RaisePropertyChanged("UsageType");
+            }
+        }
+
+        #region INotifyProperty Changed Method
+
+        protected void RaisePropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion //INotifyProperty Changed Method
+
+        public override void BeginEdit()
+        {
+            base.BeginEdit();
+        }
+        public override void EndEdit()
+        {
+            this.DataLayer.NErgyContext.SubmitChanges();
+            base.EndEdit();
+        }
+        #endregion //Properties
+
+    }
+}

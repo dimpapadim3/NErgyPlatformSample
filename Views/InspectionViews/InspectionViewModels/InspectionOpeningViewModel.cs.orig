@@ -1,0 +1,123 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+using NErgy.Building;
+using SimpleMvvmToolkit;
+using NErgy.Silverlight.Web.Models;
+using Section = NErgy.Silverlight.Web.Models.Section;
+using NErgy.Building.BuildingShell.ConductivityStandards;
+using FrameType = NErgy.Building.BuildingShell.ConductivityStandards.FrameType;
+
+namespace NErgy.Silverlight.Views.ViewModels
+{
+    public class InspectionOpeningViewModel : ViewModelBase<InspectionOpeningViewModel>
+    {
+        public InspectionOpeningViewModel(ITransparentElement opening)
+        {
+            OpeningViewModel = new OpeningViewModel(opening);
+
+            frameTypes =new ObservableCollection<EnumObject<FrameType>>( GetEnumList<FrameType>());
+            glassTypes = new ObservableCollection<EnumObject<DefaultUgConductivityStandard.OpeningsGlassType>>(GetEnumList<DefaultUgConductivityStandard.OpeningsGlassType>());
+        }
+ 
+        #region Properties
+
+        private OpeningViewModel OpeningViewModel { get; set; }
+
+        #endregion //Properties
+
+        private EnumObject< DefaultUgConductivityStandard.OpeningsGlassType> selectedglassType;
+        public EnumObject<DefaultUgConductivityStandard.OpeningsGlassType> SelectedglassType
+        {
+            get { return selectedglassType; }
+            set
+            {
+                selectedglassType = value;
+                NotifyPropertyChanged(m => m.SelectedglassType);
+            }
+        }
+
+        private ObservableCollection<EnumObject<DefaultUgConductivityStandard.OpeningsGlassType>> glassTypes;
+        public ObservableCollection<EnumObject<DefaultUgConductivityStandard.OpeningsGlassType>> GlassTypes
+        {
+            get { return glassTypes; }
+            set
+            {
+                glassTypes = value;
+                NotifyPropertyChanged(m => m.GlassTypes);
+            }
+        }
+
+        private EnumObject<FrameType> selectedFrameType;
+        public  EnumObject<FrameType>  SelectedFrameType
+        {
+            get { return selectedFrameType; }
+            set
+            {
+                selectedFrameType = value;
+                NotifyPropertyChanged(m => m.SelectedFrameType);
+            }
+        }
+
+        private ObservableCollection<EnumObject<FrameType>> frameTypes;
+        public ObservableCollection<EnumObject<FrameType>> FrameTypes
+        {
+            get { return frameTypes; }
+            set
+            {
+                frameTypes = value;
+                NotifyPropertyChanged(m => m.FrameTypes);
+            }
+        }
+
+        private double defaultUg;
+        public double DefaultUg
+        {
+            get { return defaultUg; }
+            set
+            {
+                defaultUg = value;
+                NotifyPropertyChanged(m => m.DefaultUg);
+            }
+        }
+
+        private void DefaultUconductivityStandartLoaded(List<DefaultUgStandard> entities, Exception error)
+        {
+            // If no error is returned, set the model to entities
+            if (error == null)
+            {
+                DefaultUg = entities.FirstOrDefault().U.Value;
+            }
+            // Otherwise notify view that there's an error
+            else
+            {
+                //NotifyError("Unable to retrieve items", error);
+            }
+
+            //// Set SelectedItem to the first item
+            //if (BuildingUsages.Count > 0)
+            //{
+            //    //SelectedUsage = BuildingUsages[0];
+            //}
+
+            //// We're done
+            //IsBusy = false;
+        }
+
+
+        public void LoadDefaultUg()
+        {
+            StandardsServiceLayer.GetDefaultUgStandard(DefaultUconductivityStandartLoaded,(int) SelectedglassType.Id);
+        }
+    }
+}

@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="NErgy.Silverlight.Views.OpeningView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:dataFormToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" mc:Ignorable="d"
+    d:DesignHeight="464" d:DesignWidth="768">
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+
+        <!-- Add to your root tag if required
+
+xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
+xmlns:dataFormToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" 
+
+-->
+
+        <dataFormToolkit:DataForm AutoGenerateFields="False" CurrentItem="{Binding}" Margin="0,0,524,0">
+            <dataFormToolkit:DataForm.EditTemplate>
+                <DataTemplate>
+                    <StackPanel>
+    <!-- Glass View  -->
+                        <dataFormToolkit:DataField Grid.Row="0" Grid.Column="0" Label="Ag" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Glass.Ag, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </dataFormToolkit:DataField>
+
+                    
+                        <dataFormToolkit:DataField Grid.Row="0" Grid.Column="0" Label="Ug" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Glass.Ug, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </dataFormToolkit:DataField>
+ 
+                        <dataFormToolkit:DataField Grid.Row="0" Grid.Column="0" Label="lg" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Glass.lg, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </dataFormToolkit:DataField>
+ 
+                        <dataFormToolkit:DataField Grid.Row="0" Grid.Column="0" Label="Psig" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Glass.Psig, Mode=TwoWay,UpdateSourceTrigger=Default, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </dataFormToolkit:DataField>
+ 
+  <!-- Frame View  -->
+                        <dataFormToolkit:DataField Grid.Row="1" Grid.Column="0" Label="Af" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Frame.Af, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </dataFormToolkit:DataField>
+
+
+                        <dataFormToolkit:DataField Grid.Row="1" Grid.Column="0" Label="Uf" LabelPosition="Auto">
+                            <TextBox Text="{Binding Path=Frame.Uf, Mode=TwoWay,UpdateSourceTrigger=Explicit, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                        </dataFormToolkit:DataField>
+                        
+                        <dataFormToolkit:DataField Grid.Row="2" Grid.Column="0" Label="U" LabelPosition="Auto">
+                            <TextBlock Text="{Binding Path=U}" />
+                        </dataFormToolkit:DataField>
+
+                    </StackPanel>
+                </DataTemplate>
+            </dataFormToolkit:DataForm.EditTemplate>
+        </dataFormToolkit:DataForm>
+    </Grid>
+</UserControl>

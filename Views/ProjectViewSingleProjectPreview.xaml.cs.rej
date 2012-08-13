@@ -1,0 +1,114 @@
+--- ProjectViewSingleProjectPreview.xaml.cs
++++ ProjectViewSingleProjectPreview.xaml.cs
+@@ -1,4 +1,11 @@
+-﻿using System.Windows.Controls;
++﻿using System;
++using System.Windows;
++using System.Windows.Controls;
++using NCad.Models;
++using NCad.Utilities;
++using NCad.Views;
++using NCad.Views.ViewModels3D;
++using NErgy.Silverlight.Models;
+ using NErgy.Silverlight.Views.Controllers;
+ using NErgy.Silverlight.Views.ViewModels;
+ using NErgy.Silverlight.Web.Models;
+@@ -16,6 +23,8 @@
+             //Mediator.Instance.ProjectView = this; 
+             //this.ViewModel.BuildingInProjectLoaded += projectPreview.BuildingLoaded;
+             //this.ViewModel = new ProjectViewModel(ThermalBuildingModel.Instance.Project);
++
++            mainview2D2SV.Visibility = System.Windows.Visibility.Collapsed;
+         }
+ 
+         public ProjectListViewModel ViewModel
+@@ -33,14 +42,84 @@
+ 
+         private void button2_Click(object sender, System.Windows.RoutedEventArgs e)
+         {
+-            button2.Visibility      = System.Windows.Visibility.Collapsed;
+-            df1.Visibility          = System.Windows.Visibility.Collapsed;
++            return;
++            button2.Visibility = System.Windows.Visibility.Collapsed;
++            df1.Visibility = System.Windows.Visibility.Collapsed;
+             projectsList.Visibility = System.Windows.Visibility.Collapsed;
+             addNewButton.Visibility = System.Windows.Visibility.Collapsed;
+-            
++            mainview2D2SV.Visibility = System.Windows.Visibility.Visible;
+ 
+-            myStoryboard.Begin();
++            //myStoryboard.Begin();
+ 
++            //myStoryboard.Completed += (s, ev) =>
++            //                              {
++
++                                              projectpreview.Mediator.Controller3D.SetUpScene();
++                                              //projectpreview.Margin = new Thickness() {Top = 0, Left = 100};
++            //regionmain.Content = projectpreview as UserControl;
++            regionmain.Visibility = System.Windows.Visibility.Visible;
++
++                                              //projectpreview.View3d.Height = projectpreview.Height;
++                                              //projectpreview.View3d.Width = projectpreview.Width;
++                                              projectpreview.View3d.StopRotateScene();
++            InitializeDesignMode();
++                                              //};                    
+         }
++
++
++
++        #region DesignMode
++
++        private readonly ActionManager ActionManager = new ActionManager();
++        private ThermalBuildingModel Model { get { return ThermalBuildingModel.Instance; } }
++        private readonly PropertyGrid properyGrid = new PropertyGrid();
++        private MenuManager MenuManager;
++        private KeyboardManager _keyboardManager;
++
++        public void InitializeDesignMode()
++        {
++            _keyboardManager = new KeyboardManager(this);
++            DesignViewModel = new DesignViewController(this);
++            Model.SelectedItem += Model_SelectedItem;
++            Model.Initialize();
++
++            var mediator = Mediator.Instance; //new Mediator(Model);
++            mediator.DesignView = this;
++            mediator.Initialize3DController();
++            MenuManager = new Controllers.MenuManager(mediator.Controller3D);
++           
++            mediator.Add3DView(projectpreview.mainView3D);
++            //if(this.mainview2D.DrawingControl!=null)
++            //mediator.Add2DView(this.mainview2D);
++        }
++
++        public DesignViewController DesignViewModel { get; set; }
++
++
++        private void Model_SelectedItem(object sender, EventArgs e)
++        {
++            //properyGrid.Show(sender, ActionManager);
++        }
++
++        public void SetSectionView(UserControl thermalSectionEditor)
++        {
++            SectionRegion.Content = thermalSectionEditor;
++        }
++ 
++        public IView3D MainView3D { get { return projectpreview.View3d; } }
++        public ContentControl DispalyRegion { get { return null; } }
++        public ContentControl MainRegion { get { return null;/*this._MainRegion; */} }
++        public ContentControl SecondaryRegion { get { return this.mainview2D2SV; } }
++        public ContentControl SectionRegion { get { return this.sectionEditorRegion; } }
++        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
++        {
++            if (DesignViewModel == null) return;
++            DesignViewModel.UpdateDataContextItems();
++            (sender as ContextMenu).ItemsSource = DesignViewModel.View3dMenuItems;
++        }
++
++        #endregion
++
++
+     }
+ }
+\ No newline at end of file

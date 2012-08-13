@@ -1,0 +1,327 @@
+﻿<UserControl  x:Class="NErgy.Silverlight.Views.ShellView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:dataFormToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.DataForm.Toolkit" mc:Ignorable="d"
+ xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:riaControls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.DomainServices" xmlns:my="clr-namespace:NErgy.Silverlight.Web.Services" xmlns:my1="clr-namespace:NErgy.Silverlight.Web.Models" xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Views="clr-namespace:NErgy.Silverlight.Views" xmlns:Helpers="clr-namespace:NErgy.Silverlight.Helpers" d:DesignHeight="615" d:DesignWidth="946"           
+                >
+    <UserControl.Resources>
+        <Helpers:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+  
+    <Grid x:Name="LayoutRoot" Background="White" DataContext="{Binding}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" DataContext="{Binding}">
+            <StackPanel>
+                <sdk:Label>Αριθμός Διαχωριστικών επιφανειών</sdk:Label>
+                <Controls:NumericUpDown Value="{Binding NumberOfSeparatingSurfauces,Mode=TwoWay}" Width="30"></Controls:NumericUpDown>
+
+            </StackPanel>
+
+            <StackPanel>
+                <sdk:Label>Παθητικά ηλιακά</sdk:Label>
+                <CheckBox IsChecked="{Binding HasPassiveSolarSystems,Mode=TwoWay}"></CheckBox>
+            </StackPanel>
+        </StackPanel>
+        <sdk:TabControl Grid.Row="1">
+            <sdk:TabItem Header="Αδιαφανείς Επιφάνειες" >
+                <Grid Height="Auto"   DataContext="{Binding}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="530*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="257*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <sdk:DataGrid Grid.Row="0" ItemsSource="{Binding  Path=OpaqueElements,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTranslusentElement,Mode=TwoWay}" AutoGenerateColumns="False" KeyDown="TranslusentDataGrid_KeyDown"  SelectionChanged="DataGrid_OnSelectionChanged" >
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTemplateColumn Header="Διαγραφή">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.DeleteTranslusentElement}"  >X</Button>
+
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+
+                            <sdk:DataGridTemplateColumn Header="τύπος">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox  Width="100"
+                                              ItemsSource="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.TranslusentElementTypes}" 
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=TranslusentTypeId,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTextColumn Binding="{Binding Description}" Header="Περιγραφή"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Gama}" Header="γ"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Beta}" Header="β"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Area}" Header="Εμβαδόν"/>
+                            <sdk:DataGridTextColumn Binding="{Binding U}" Header="U"/>
+                            <sdk:DataGridTextColumn Header="A" Binding="{Binding A}" SortMemberPath="α" />
+
+                            <sdk:DataGridTextColumn Header="E" Binding="{Binding E}" SortMemberPath="ε" />
+
+                            <sdk:DataGridTextColumn Header="Fov H" Binding="{Binding FovH}" SortMemberPath="FovH" />
+
+                            <sdk:DataGridTextColumn Header="Fov C" Binding="{Binding FovC}" SortMemberPath="FovC" />
+
+                            <sdk:DataGridTextColumn Header="Ffin C" Binding="{Binding FfinC}" SortMemberPath="FfinC" />
+
+                            <sdk:DataGridTextColumn Header="Fhor H" Binding="{Binding FhorH}" SortMemberPath="FhorH" />
+
+                            <sdk:DataGridTextColumn Header="Ffin H" Binding="{Binding FfinH}" SortMemberPath="FfinH" />
+
+                            <sdk:DataGridTextColumn Header="Fhor C" Binding="{Binding FhorC}" SortMemberPath="FhorC" />
+
+
+                        </sdk:DataGrid.Columns>
+                        <Controls:ContextMenuService.ContextMenu>
+
+                            <Controls:ContextMenu  Opened="TanslusentContextMenuOpenedCommand" ItemsSource="{Binding Path=TransparentElementsMenuItems}">
+
+
+                            </Controls:ContextMenu>
+
+                        </Controls:ContextMenuService.ContextMenu>
+
+                    </sdk:DataGrid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button  Width="70"  Command="{Binding EndEditTranslucentCommand}" IsEnabled="{Binding IsEnabledTranslusentEndEdit}">OK</Button>
+                        <Button Command="{Binding CancelEditTranslucentCommand}" Content="Ακύρωση"   Width="70"   />
+                    </StackPanel>
+                </Grid>
+            </sdk:TabItem>
+            <sdk:TabItem Header="Διαφανείς Επιφάνειες">
+                <Grid Height="Auto"   DataContext="{Binding}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="530*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="257*" />
+                    </Grid.ColumnDefinitions>
+
+                    <sdk:DataGrid  ItemsSource="{Binding  Path=TransparentElements}" SelectedItem="{Binding Path=SelectedTransparentElement,Mode=TwoWay}" AutoGenerateColumns="False" KeyDown="DataGrid_KeyDown" >
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTemplateColumn Header="Διαγραφή">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.DeleteTransparentElement}"  >X</Button>
+
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTemplateColumn Header="τύπος">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox  Width="100"
+                                              ItemsSource="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.TransparentElementTypes}" 
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=TransparentTypeId,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTextColumn Binding="{Binding Description}" Header="Περιγραφή"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Gama}" Header="γ"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Beta}" Header="β"/>
+
+                            <sdk:DataGridTextColumn Binding="{Binding Area}" Header="Εμβαδόν"/>
+                            <sdk:DataGridTextColumn Binding="{Binding OpeningType}" Header="Τυπος Ανοιγματος"/>
+                            <sdk:DataGridTextColumn Binding="{Binding U}" Header="U"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Gw}" Header="g_w"/>
+
+                            <sdk:DataGridTextColumn Header="Fov H" Binding="{Binding FovH}" SortMemberPath="FovH" />
+
+                            <sdk:DataGridTextColumn Header="Fov C" Binding="{Binding FovC}" SortMemberPath="FovC" />
+
+                            <sdk:DataGridTextColumn Header="Ffin C" Binding="{Binding FfinC}" SortMemberPath="FfinC" />
+
+                            <sdk:DataGridTextColumn Header="Fhor H" Binding="{Binding FhorH}" SortMemberPath="FhorH" />
+
+                            <sdk:DataGridTextColumn Header="Ffin H" Binding="{Binding FfinH}" SortMemberPath="FfinH" />
+
+                            <sdk:DataGridTextColumn Header="Fhor C" Binding="{Binding FhorC}" SortMemberPath="FhorC" />
+
+
+                        </sdk:DataGrid.Columns>
+                    </sdk:DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button  Width="70"  Command="{Binding EndEditTransparentCommand}" IsEnabled="{Binding IsEnabledTransparentEndEdit}">OK</Button>
+                        <Button Command="{Binding CancelEditTransparentCommand}" Content="Ακύρωση"   Width="70"   />
+                    </StackPanel>
+                </Grid>
+            </sdk:TabItem>
+            <sdk:TabItem Header="Σε επαφή με το έδαφος">
+                <Grid Height="Auto"   DataContext="{Binding}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="530*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="257*" />
+                    </Grid.ColumnDefinitions>
+
+                    <sdk:DataGrid  ItemsSource="{Binding  Path=ContactWithGroundElements}" SelectedItem="{Binding Path=SelectedContactWithGroundElement,Mode=TwoWay}"  AutoGenerateColumns="False" KeyDown="ContactWithGroundDataGrid_KeyDown" >
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTemplateColumn Header="Διαγραφή">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.DeleteContactWithGroundElementElement}"  >X</Button>
+
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTemplateColumn Header="Τύπος" >
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox  Width="100"
+                                        ItemsSource="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.ContactWithGroundElementTypes}" 
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=ContactWithGroundElementTypeId,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+
+
+                            <sdk:DataGridTextColumn Header="Description" Binding="{Binding Description}" SortMemberPath="Περιφραφή" />
+                            <sdk:DataGridTextColumn Header="U" Binding="{Binding U}" SortMemberPath="U" />
+                            <sdk:DataGridTextColumn Header="Area" Binding="{Binding Area}" SortMemberPath="Επιφάνεις" />
+                            <sdk:DataGridTextColumn Header="Ddepth" Binding="{Binding Ddepth}" SortMemberPath="Κ.Βάθος" />
+                            <sdk:DataGridTextColumn Header="Udepth" Binding="{Binding Udepth}" SortMemberPath="Α.Βάθος" />
+                            <sdk:DataGridTextColumn Header="Perimeter" Binding="{Binding Perimeter}" SortMemberPath="Περίμετρος" />
+                        </sdk:DataGrid.Columns>
+                        <Controls:ContextMenuService.ContextMenu>
+
+                            <!--<Controls:ContextMenu  Opened="ContactWithGroundElementsContextMenu_Opened" ItemsSource="{Binding Path=ContactWithGroundElementsMenuItems}">
+
+
+                            </Controls:ContextMenu>-->
+
+                        </Controls:ContextMenuService.ContextMenu>
+                    </sdk:DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button  Width="70"  Command="{Binding EndEditContactWithGroundElementCommand}" IsEnabled="{Binding IsEnabledContactWithGroundElementEndEdit}">OK</Button>
+                        <Button Command="{Binding CancelEditContactWithGroundElementCommand}" Content="Ακύρωση"   Width="70"   />
+                    </StackPanel>
+                </Grid>
+            </sdk:TabItem>
+            <sdk:TabItem Header="Παθητικά ηλιακά" Visibility="{Binding HasPassiveSolarSystems,Converter={StaticResource VisibilityConverter},UpdateSourceTrigger=PropertyChanged}" >
+                <Grid Height="Auto"   DataContext="{Binding Path=PassiveDirectSolarGainSystemViewModel}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="530*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="257*" />
+                    </Grid.ColumnDefinitions>
+
+                    <sdk:DataGrid Grid.Row="0" ItemsSource="{Binding  Path=TransparentElements}" SelectedItem="{Binding Path=SelectedTransparentElement,Mode=TwoWay}" AutoGenerateColumns="False" KeyDown="DataGrid_KeyDown" >
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTemplateColumn Header="Διαγραφή">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.DeleteTransparentElement}"  >X</Button>
+
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTemplateColumn Header="τύπος">
+                                <sdk:DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox  Width="100"
+                                              ItemsSource="{Binding  RelativeSource={    RelativeSource Mode=FindAncestor, AncestorType=  Views:ShellView}, Path=ViewModel.TransparentElementTypes}" 
+                                        DisplayMemberPath="Name"
+                                        SelectedValue="{Binding Path=TransparentTypeId,Mode=TwoWay}"
+                                        SelectedValuePath="Id"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellEditingTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTextColumn Binding="{Binding Description}" Header="Περιγραφή"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Gama}" Header="γ"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Beta}" Header="β"/>
+
+                            <sdk:DataGridTextColumn Binding="{Binding Area}" Header="Εμβαδόν"/>
+                            <sdk:DataGridTextColumn Binding="{Binding OpeningType}" Header="Τυπος Ανοιγματος"/>
+                            <sdk:DataGridTextColumn Binding="{Binding U}" Header="U"/>
+                            <sdk:DataGridTextColumn Binding="{Binding Gw}" Header="g_w"/>
+
+                            <sdk:DataGridTextColumn Header="Fov H" Binding="{Binding FovH}" SortMemberPath="FovH" />
+
+                            <sdk:DataGridTextColumn Header="Fov C" Binding="{Binding FovC}" SortMemberPath="FovC" />
+
+                            <sdk:DataGridTextColumn Header="Ffin C" Binding="{Binding FfinC}" SortMemberPath="FfinC" />
+
+                            <sdk:DataGridTextColumn Header="Fhor H" Binding="{Binding FhorH}" SortMemberPath="FhorH" />
+
+                            <sdk:DataGridTextColumn Header="Ffin H" Binding="{Binding FfinH}" SortMemberPath="FfinH" />
+
+                            <sdk:DataGridTextColumn Header="Fhor C" Binding="{Binding FhorC}" SortMemberPath="FhorC" />
+
+
+                        </sdk:DataGrid.Columns>
+                    </sdk:DataGrid>
+                    <StackPanel Grid.Row="1"  Orientation="Horizontal">
+                        <Button  Width="70"  Command="{Binding EndEditTranslucentCommand}" IsEnabled="{Binding IsEnabledEntityObjectEndEdit}">OK</Button>
+                        <Button Command="{Binding CancelEditEntityObjectCommand}" Content="Ακύρωση"   Width="70"   />
+                    </StackPanel>
+                </Grid>
+            </sdk:TabItem>
+        </sdk:TabControl>
+
+        <!-- Bind IsBusy to IsBusy -->
+        <toolkit:BusyIndicator Name="isBusyIndicator" Height="80" Width="200" 
+                IsBusy="{Binding IsBusy}" Margin="152,39,148,-39" />
+    </Grid>
+
+</UserControl>

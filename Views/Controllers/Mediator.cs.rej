@@ -1,0 +1,11 @@
+--- Mediator.cs
++++ Mediator.cs
+@@ -44,7 +44,7 @@
+ 
+         #endregion
+ 
+-        private Mediator(ThermalBuildingModel Model)
++        public Mediator(ThermalBuildingModel Model)
+             : base(Model)
+         { 
+             SectionEditorController = new SectionEditorController { ActionManager = ActionManager };

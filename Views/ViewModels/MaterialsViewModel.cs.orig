@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Controls;
+using NErgy.Building;
+using NErgy.Silverlight.Web.Models;
+
+namespace NErgy.Silverlight.Views.ViewModels
+{
+    public class MaterialsViewModel : ViewModelBase
+    {
+        private Material _selectedMaterial;
+        private IThermalMaterial _thermalMaterial;
+  
+        protected MaterialsViewModel()
+        {
+            LibraryName = "Material";
+            PropertyChanged += MaterialsViewModel_PropertyChanged;
+        }
+
+        public MaterialsViewModel(IThermalMaterial iThermalMaterial)
+        {
+            // TODO: Complete member initialization
+            //if (iThermalMaterial == null) iThermalMaterial = new ThermalMaterial();
+            _thermalMaterial = iThermalMaterial;
+        }
+
+        public IThermalMaterial ThermalMaterial
+        {
+            get { return _thermalMaterial; }
+            set
+            {
+                _thermalMaterial = value;
+                RaisePropertyChanged("ThermalMaterial");
+            }
+        }
+
+
+        public Double TheramlCapacityCoef
+        {
+            get { return _thermalMaterial.TheramlCapacityCoef.Value; }
+            set
+            {
+                _thermalMaterial.TheramlCapacityCoef = value;
+                RaisePropertyChanged("TheramlCapacityCoef");
+            }
+        }
+
+        //private DataAccesLayer dataLayer = new DataAccesLayer();
+
+        public Double TheramlConductivityCoef
+        {
+            get { return _thermalMaterial.TheramlConductivityCoef.Value; }
+            set
+            {
+                _thermalMaterial.TheramlConductivityCoef = value;
+                RaisePropertyChanged("TheramlConductivityCoef");
+            }
+        }
+
+        public string LibraryName { get; set; }
+
+        protected IList<IThermalMaterial> CurrentLibraryMaterials_List
+        {
+            get
+            {
+                return new List<IThermalMaterial> { new Material { MaterialID = 1 } };
+                //TestDataAccesLayer.FillDataAccesLayerMaterials(dataLayer);
+                //var matQuery = dataLayer.NErgyContext.GetMaterialQuery();
+                //dataLayer.NErgyContext.Load(matQuery);
+                //var libs = from l in dataLayer.NErgyContext.Materials select l;
+                //return libs.ToList();
+            }
+        }
+
+
+        public DomainDataSource CurrentLibraryMaterials
+        {
+            get { return new DomainDataSource {}; }
+        }
+
+        public IList<Library> UserMaterialLibraries
+        {
+            get
+            {
+                return new List<Library> {};
+                //    TestDataAccesLayer.FillDataAccesLayerMaterials(dataLayer);
+                //    var libs = dataLayer.GetMaterialLibrariesFroUser(1);
+                //    var returnLibs = from l in dataLayer.NErgyContext.Libraries select l;
+                //    return returnLibs.ToList();
+                //}
+            }
+        }
+
+
+        //#region INotifyProperty Changed Method
+
+        //protected void RaisePropertyChanged(string propertyName)
+        //{
+        //    var handler = this.PropertyChanged;
+        //    if (handler != null)
+        //    {
+        //        handler(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        //    }
+        //}
+
+
+        //#endregion //INotifyProperty Changed Method
+
+        public Material SelectedMaterial
+        {
+            get { return _selectedMaterial; }
+            set
+            {
+                _selectedMaterial = value;
+                RaisePropertyChanged("SelectedMaterial");
+            }
+        }
+
+
+        public Library ActiveLibrary { get; set; }
+
+        private void MaterialsViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedMaterial")
+            {
+            }
+        }
+
+        internal IEnumerable GetLibraryMaterials(int libraryID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Library AddNewLibrary()
+        {
+            //TODO:correct tis to acctualy add a new library 
+            var newLib = new Library {};
+            //dataLayer.NErgyContext.Libraries.Add(newLib);
+            //dataLayer.NErgyContext.SubmitChanges();
+            return newLib;
+        }
+
+        #region Events
+
+        //public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        #endregion //Events
+    }
+}
